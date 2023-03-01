@@ -1,9 +1,8 @@
 package com.cpan252.tekkenreborn.controller;
 
 import java.util.EnumSet;
-// util api call to use EnumSet class
 
-//SPRING framework imports
+// Spring framework imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,21 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cpan252.tekkenreborn.model.Fighter;
-// importing the created Fighter model 
-
 import com.cpan252.tekkenreborn.model.Fighter.Anime;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-@Controller // this is responsible for handling the request and response, so its a
-            // controller
+@Controller
 @Slf4j
-@RequestMapping("/design") // defined the route url location for this controller
 public class DesignController {
 
-  @GetMapping
-  public String design() {
+  @GetMapping("/design")
+  public String design(Model model) {
     return "design";
   }
 
@@ -40,11 +35,18 @@ public class DesignController {
   }
 
   @ModelAttribute
-  // This model attribute has a lifetime of a request
   public Fighter fighter() {
-    return Fighter
-        .builder()
-        .build();
+    return Fighter.builder().build();
+  }
+
+  @PostMapping("/design")
+  public String processFighterAddition(@Valid Fighter fighter, BindingResult result) {
+    if (result.hasErrors()) {
+      return "design";
+    }
+    log.info("Processing fighter: {}", fighter);
+    // TODO: Implement code to save fighter to database
+    return "redirect:/fighterlist";
   }
 
 }
