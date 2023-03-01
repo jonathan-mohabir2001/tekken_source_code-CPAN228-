@@ -1,7 +1,7 @@
 package com.cpan252.tekkenreborn.model;
 
 import java.math.BigDecimal;
-
+import java.util.Date;
 import lombok.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -13,6 +13,10 @@ import jakarta.validation.constraints.Min;
 @Builder
 // lombok annotation to generate builder pattern
 public class Fighter {
+
+  // new field for database
+
+  private Long id;
 
   private String name;
 
@@ -43,5 +47,9 @@ public class Fighter {
       return title;
     }
   }
+
+  // new field for setting the date creation
+
+  private Date createdAt = new Date();
 
 }
